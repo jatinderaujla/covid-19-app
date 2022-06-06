@@ -49,7 +49,7 @@ public class VaccinationSlotBookingService {
 
         VaccinationSlot vaccinationSlot1 = vaccinationSlot.get();
 
-        if(countBookedVaccination(bookSlot.getSlotDate(), bookSlot.getHospitalName()) == vaccinationSlot1.getNoOfSlots()){
+        if(!(countBookedVaccination(bookSlot.getSlotDate(), bookSlot.getHospitalName()) < vaccinationSlot1.getNoOfSlots())){
             throw new AvailabilityStateException(MessageFormat.format("{0} Slot is already booked", bookSlot.getSlotDate()));
         }
 
@@ -59,6 +59,7 @@ public class VaccinationSlotBookingService {
         vaccinationSlotBooking.setPersonName(bookSlot.getPersonName());
         vaccinationSlotBooking.setBookingStatus(BookingStatus.BOOKED);
         vaccinationSlotBooking.setAge(bookSlot.getAge());
+        vaccinationSlotBooking.setMobile(bookSlot.getMobile());
         vaccinationSlotBooking.setVaccinationSlot(vaccinationSlot1);
 
         return vaccinationSlotBookingRepository.save(vaccinationSlotBooking);
@@ -73,5 +74,9 @@ public class VaccinationSlotBookingService {
         vaccinationSlotBooking.setVaccinationSlot(vaccinationSlot);
         Example<VaccinationSlotBooking> vaccinationSlotExample = Example.of(vaccinationSlotBooking);
         return (int) vaccinationSlotBookingRepository.count(vaccinationSlotExample);
+    }
+
+    public void deleteAllBookingSlots(){
+        vaccinationSlotBookingRepository.deleteAll();
     }
 }

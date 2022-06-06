@@ -32,7 +32,7 @@ public class VaccinationSlotBookingController {
         return ResponseEntity.created(URI.create("")).body(message);
     }
 
-    @PutMapping(value = "/{aadhaar-card-no}")
+    @PutMapping(value = "cancel/{aadhaar-card-no}")
     public ResponseEntity<Object> cancelVaccinationSlot(@PathVariable("aadhaar-card-no") String aadhaarCardNo) {
         boolean isSlotCancelled = vaccinationSlotBookingService.cancelVaccinationSlot(aadhaarCardNo);
         return ResponseEntity.ok(isSlotCancelled ? "Booking cancelled successfully" : "Booking cancellation failed");

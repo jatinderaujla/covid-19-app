@@ -3,24 +3,24 @@ package com.example;
 import com.example.enums.SlotAvailabilityStatus;
 import com.example.enums.VaccineType;
 import com.example.model.VaccinationSlot;
+import com.example.service.VaccinationSlotBookingService;
 import com.example.service.VaccinationSlotService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootApplication
 public class Covid19AppApplication implements CommandLineRunner {
 
     private final VaccinationSlotService vaccinationSlotService;
+    private final VaccinationSlotBookingService vaccinationSlotBookingService;
 
-    public Covid19AppApplication(VaccinationSlotService vaccinationSlotService) {
+    public Covid19AppApplication(VaccinationSlotService vaccinationSlotService, VaccinationSlotBookingService vaccinationSlotBookingService) {
         this.vaccinationSlotService = vaccinationSlotService;
+        this.vaccinationSlotBookingService = vaccinationSlotBookingService;
     }
 
     public static void main(String[] args) {
@@ -45,8 +45,8 @@ public class Covid19AppApplication implements CommandLineRunner {
 
         List<String> hospitals = Arrays.asList(
                 "Fortis Flt. Lt. Rajan Dhall Hospital",
-                "Fortis Hospital	Shalimar Bagh",
-                "Fortis La Femme	Greater Kailash",
+                "Fortis Hospital Shalimar Bagh",
+                "Fortis La Femme Greater Kailash",
                 "Govind Ballabh Pant Hospital",
                 "Guru Teg Bahadur Hospital",
                 "Holy Family Hospital",
@@ -63,10 +63,13 @@ public class Covid19AppApplication implements CommandLineRunner {
                     addressList.get(random.nextInt(addressList.size() - 1)),
                     VaccineType.COVAXIN,
                     20,
-                    i % 3 == 0 ? SlotAvailabilityStatus.AVAILABLE : SlotAvailabilityStatus.BOOKED
+                    i % 2 == 0 ? SlotAvailabilityStatus.AVAILABLE : SlotAvailabilityStatus.BOOKED
             );
             slots.add(vaccinationSlot);
         }
+        //sort to keep date in order
+        slots.sort(Comparator.comparing(VaccinationSlot::getSlotDate));
+        vaccinationSlotBookingService.deleteAllBookingSlots();
         vaccinationSlotService.deleteAll();
         List<VaccinationSlot> slots1 = vaccinationSlotService.saveAllSlots(slots);
     }

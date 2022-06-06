@@ -16,9 +16,9 @@ public class VaccinationSlotBooking {
     private Integer age;
     private LocalDate bookingDate;
     private BookingStatus bookingStatus;
-    @Column(unique = true)
+
     private String mobile;
-    @Column(unique = true)
+
     private String aadhaarCardNo;
 
     @ManyToOne

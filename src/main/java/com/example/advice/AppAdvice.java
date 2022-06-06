@@ -22,7 +22,7 @@ public class AppAdvice {
         ErrorDto errorDto = new ErrorDto();
         errorDto.setMessage(exception.getMessage());
         errorDto.setStatus(HttpStatus.NOT_FOUND);
-
+        errorDto.setStatusCode(HttpStatus.NOT_FOUND.value());
         return errorDto;
     }
 
@@ -32,7 +32,8 @@ public class AppAdvice {
 
         ErrorDto errorDto = new ErrorDto();
         errorDto.setMessage(exception.getMessage());
-        errorDto.setStatus(HttpStatus.NOT_FOUND);
+        errorDto.setStatus(HttpStatus.EXPECTATION_FAILED);
+        errorDto.setStatusCode(HttpStatus.EXPECTATION_FAILED.value());
 
         return errorDto;
     }
