@@ -1,14 +1,14 @@
-#Covid 19 APP
-##Covid 19 vaccination slot booking application for demo purposes
+# Covid-19 APP
+## Covid-19 vaccination slot booking application for demo purposes
 
-###Bundling application using maven
-####Create jar file
+### Bundling application using maven
+#### Create jar file
 `mvn clean install`
 
-####run the application
+#### Run the application
 `java -jar covid-19-app-1.0.0.jar`
 
-###REST API Endpoints
+### REST API Endpoints
 
 1. List all the Vaccination slots 
 
